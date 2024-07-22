@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:form class="form-container mt-5">
+
+            <h:form >
+                <h:panelGrid columns="2" >
+                    <h:outputLabel for="id" value="nombre:" />
+                    <h:inputText id="id" value="#{transaccionBeam.transaccion.usuarioAsociado.nombre}" />
+
+                    <h:outputLabel for="usuarioAsociado" value="apellido:" />
+                    <h:inputText id="usuarioAsociado" value="#{transaccionBeam.transaccion.usuarioAsociado.apellido}" />
+
+                    <h:outputLabel for="fondoAsociado" value="DNI" />
+                    <h:inputText id="fondoAsociado" value="#{transaccionBeam.transaccion.usuarioAsociado.dni}" />
+
+                    <h:form>
+                        <h:selectOneMenu value="#{transaccionBeam.fondoaS}" id="selectMenu" styleClass="my-select-menu" disabled="#{transaccionBean.disableSelectMenu}" converter="#{fondoConverter}">
+                            <f:selectItem itemLabel="Select an option" itemValue="#{null}" />
+                            <f:selectItems value="#{transaccionBeam.listaF}" var="fondo" itemLabel="#{fondo.nombre}" itemValue="#{fondo.id}" />
+                        </h:selectOneMenu>
+                    </h:form>
+
+
+                    <h:outputLabel for="evidencia" value="Evidencia:" />
+                    <p:fileUpload id="evidencia" value="#{transaccionBeam.file}" mode="simple" />
+
+                    <h:outputLabel for="monto" value="Responsable:" />
+                    <h:inputText id="monto" value="#{transaccionBeam.transaccion.monto}" />
+                </h:panelGrid>
+                <h:commandButton value="Enviar" action="#{transaccionBeam.registrarTrab()}" />
+            </h:form>
+
+
+
+    </h:form>
+
+</ui:composition>

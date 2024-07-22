@@ -1,0 +1,208 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f7f6;
+        color: #333;
+        left: -100px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin: 20px;
+        flex: 1 1 300px;
+        max-width: 400px;
+        box-sizing: border-box;
+        padding: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h2 {
+        font-size: 24px;
+        color: #007bff;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-group .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .form-check {
+        margin-top: 20px;
+    }
+
+    .form-check input {
+        margin-right: 10px;
+    }
+
+    .form-check label {
+        color: #555;
+    }
+
+    .imagen-fondo {
+        background-color: #6c757d;
+        height: 265px; /* Ajusta el tamaño según sea necesario */
+        margin: 20px 0;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .btn {
+        display: block;
+        width: 80%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<section class="s-fondo sec" id="s-fondo">
+    <h:form>
+        <div class="container">
+            <!-- Datos del Fondo -->
+            <div class="card">
+                <h2>Datos del Fondo</h2>
+                <div class="form-group">
+                    <p:outputLabel for="nombre-f" value="Nombre:"/>
+                    <p:inputText id="nombre-f" name="nombre-f" required="true" class="form-control" value="#{fondos.chanchita.nombre}"
+                                 requiredMessage="Ingrese el nombre del Fondo"
+                                 validatorMessage="Nombre del Fondo debe tener como mínimo 3 letras">
+                        <f:validateRequired/>
+                        <f:validateLength minimum="3"/>
+                    </p:inputText>
+                    <h:message for="nombre-f" class="error-message"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="tarjeta" value="Cuenta Asociada:"/>
+                    <p:inputText id="tarjeta" name="tarjeta" required="true" class="form-control" value="#{fondos.chanchita.cuentaAsociada.numeroCuenta}"
+                                 requiredMessage="Ingresar una cuenta para el fondo"
+                                 converterMessage="El número de cuenta debe ser numérico"
+                                 validatorMessage="El número de cuenta debe tener 20 dígitos">
+                        <f:validateRequired/>
+                        <f:convertNumber/>
+                        <f:validateLength minimum="20" maximum="20"/>
+                    </p:inputText>
+                    <h:message for="tarjeta" class="error-message"/>
+                </div>
+                <div class="imagen-fondo" style="background-image: url('../../../IMG/Fondo.jpeg');"></div>
+            </div>
+
+            <!-- Datos del Responsable -->
+            <div class="card">
+                <h2>Datos del Responsable</h2>
+                <div class="form-group">
+                    <p:outputLabel for="nombre-r" value="Nombre:"/>
+                    <p:inputText id="nombre-r" name="nombre-r" required="true" class="form-control" value="#{fondos.chanchita.encargado.nombre}"
+                                 requiredMessage="Ingresar el nombre del encargado del fondo"
+                                 validatorMessage="El nombre debe tener mínimo 4 letras">
+                        <f:validateRequired/>
+                        <f:validateLength minimum="4"/>
+                    </p:inputText>
+                    <h:message for="nombre-r" class="error-message"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="apellido-r" value="Apellido:"/>
+                    <p:inputText id="apellido-r" name="apellido-r" required="true" class="form-control" value="#{fondos.chanchita.encargado.apellido}"
+                                 requiredMessage="Ingresar el apellido del encargado del fondo"
+                                 validatorMessage="El apellido debe tener mínimo 4 letras">
+                        <f:validateRequired/>
+                        <f:validateLength minimum="4"/>
+                    </p:inputText>
+                    <h:message for="apellido-r" class="error-message"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="dni-r" value="DNI:"/>
+                    <p:inputText id="dni-r" name="dni-r" required="true" class="form-control" value="#{fondos.chanchita.encargado.dni}"
+                                 requiredMessage="Ingresar el DNI del encargado"
+                                 validatorMessage="El DNI debe tener 8 dígitos"
+                                 converterMessage="El DNI debe ser numérico">
+                        <f:validateRequired/>
+                        <f:validateLength minimum="8" maximum="8"/>
+                        <f:convertNumber/>
+                    </p:inputText>
+                    <h:message for="dni-r" class="error-message"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="Correo-r" value="Correo:"/>
+                    <p:inputText id="Correo-r" name="Correo-r" required="true" class="form-control" value="#{fondos.chanchita.encargado.correo}"
+                                 requiredMessage="Ingresar el correo del encargado"
+                                 validatorMessage="El correo debe tener este formato correo@hotmail.com">
+                        <f:validateRequired/>
+                        <f:validateRegex pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"/>
+                    </p:inputText>
+                    <h:message for="Correo-r" class="error-message"/>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel for="password-r" value="Password:"/>
+                    <p:inputText id="password-r" name="password-r" required="true" class="form-control" value="#{fondos.chanchita.encargado.password}"
+                                 requiredMessage="Ingresar una contraseña para el encargado"
+                                 validatorMessage="La contraseña debe tener como mínimo 6 dígitos">
+                        <f:validateRequired/>
+                        <f:validateLength minimum="6"/>
+                    </p:inputText>
+                    <h:message for="password-r" class="error-message"/>
+                </div>
+                <div class="form-check">
+                    <p:selectBooleanCheckbox id="f-notificacion" value="#{fondos.chanchita.encargado.notificaciones}" class="form-check-input"/>
+                    <p:outputLabel for="f-notificacion" value="¿Deseas recibir notificaciones?" class="form-check-label"/>
+                </div>
+            </div>
+
+            <!-- Botón de Envío -->
+            <h:commandButton value="Registrar" type="submit" class="btn" action="#{fondos.RegistrarFondo()}"/>
+        </div>
+    </h:form>
+</section>
+</ui:composition>

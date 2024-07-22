@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+   <style>
+      .info-section, .accounts-section, .custom-section {
+         padding: 20px;
+         border-radius: 8px;
+         margin-bottom: 20px;
+      }
+      .info-section {
+         background-color: #f8f9fa;
+      }
+      .accounts-section {
+         background-color: #e9ecef;
+      }
+      .custom-section {
+         background-color: #dfe4ea;
+      }
+      .info-section h1, .accounts-section h1, .custom-section h1 {
+         font-size: 24px;
+         margin-bottom: 10px;
+      }
+      .info-section h4, .accounts-section h4, .custom-section h4 {
+         font-size: 18px;
+         margin-bottom: 5px;
+      }
+      .info-section p, .accounts-section p, .custom-section p {
+         font-size: 16px;
+         margin: 5px 0;
+      }
+   </style>
+   <div class="info-section">
+      <h1>Inicio</h1>
+      <h4>Información Personal</h4>
+      <p><strong>Nombre : </strong> <h:outputText value="#{login.UsurEnSession().nombre}"/></p>
+      <p><strong>Correo : </strong> <h:outputText value="#{login.UsurEnSession().correo}"/></p>
+      <!-- Agrega más campos personales aquí -->
+   </div>
+   <div class="accounts-section">
+      <h4>Cuentas a su Cargo</h4>
+      <p><strong>Cantidad de Cuentas : </strong> <h:outputText value="#{login.UsurEnSession().rol.nombre}"/></p>
+      <!-- Agrega más información de cuentas aquí -->
+   </div>
+   <div class="custom-section">
+      <h4>Sección Personalizable</h4>
+      <!-- Agrega contenido adicional aquí -->
+   </div>
+</ui:composition>
+

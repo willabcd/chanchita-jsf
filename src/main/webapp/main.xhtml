@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AppChanchita - Main</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/style.css"/>
+</head>
+<f:view>
+    <f:event type="preRenderView" listener="#{registroLogin.vereficar()}" />
+    <body>
+    <div class="sidebar">
+        <h3>AppChanchita</h3>
+        <h:form>
+            <h:commandLink value="Inicio" styleClass="comanlink" action="#{controlVistas.showInicio()}" />
+            <h:commandLink id="btnFondo" value="Fondo" styleClass="comanlink"  onclick="toggleFondoOptions(); return false;" />
+            <div id="fondoOptions" style="display: none;">
+                <h:commandLink value="Registrar Fondo" styleClass="comanlink-sub" action="#{controlVistas.showFondo()}" />
+                <h:commandLink value="Lista de Fondos" styleClass="comanlink-sub" action="#{controlVistas.showListaFondos()}" />
+            </div>
+            <h:commandLink value="Transaccion" styleClass="comanlink" onclick="toggleTransOptions(); return false;"/>
+            <div id="TransaccionOptions" style="display: none;" >
+                <h:commandLink value="Registrar Transaccion" styleClass="comanlink-sub" action="#{controlVistas.showRegistrarTransaciones()}" />
+                <h:commandLink value="Lista de Transacciones" styleClass="comanlink-sub" action="#{controlVistas.showTranssaccion()}" />
+            </div>
+        </h:form>
+    </div>
+    <div class="content">
+        <div class="welcome-section">
+            <h2>Bienvenido, #{registroLogin.sessionID}</h2>
+        </div>
+        <div class="content">
+            <h:form id="content">
+                <ui:include src="#{controlVistas.vistaActual}"/>
+            </h:form>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        function toggleFondoOptions() {
+            var fondoOptions = document.getElementById('fondoOptions');
+            if (fondoOptions.style.display === 'none') {
+                fondoOptions.style.display = 'block';
+            } else {
+                fondoOptions.style.display = 'none';
+            }
+        }
+        function toggleTransOptions() {
+            var fondoOptions = document.getElementById('TransaccionOptions');
+            if (fondoOptions.style.display === 'none') {
+                fondoOptions.style.display = 'block';
+            } else {
+                fondoOptions.style.display = 'none';
+            }
+        }
+    </script>
+    </body>
+</f:view>
+</html>
+
+
