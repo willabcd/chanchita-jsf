@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form class="form-container mt-5" id="listaDeTransacciones">
+
+        <p:dataTable id="transaccionesTable" value="#{editarTransaccion.list}" var="row">
+            <p:column headerText="id">
+                <h:outputLabel value="#{row.id_transaccion}" />
+            </p:column>
+            <p:column headerText="nombre usuario">
+                <h:inputText value="#{row.usuarioAsociado.nombre}" />
+            </p:column>
+            <p:column headerText="apellido usuario">
+                <h:inputText value="#{row.usuarioAsociado.apellido}" />
+            </p:column>
+            <p:column headerText="DNI usuario">
+                <h:inputText value="#{row.usuarioAsociado.dni}" />
+            </p:column>
+            <p:column headerText="recaudado">
+                <h:outputLabel value="#{row.monto}" />
+            </p:column>
+            <p:column headerText="acción">
+                <p:commandButton value="Actualizar" action="#{editarTransaccion.ActualizarTransaccion(row)}" update="transaccionesTable"/>
+                <p:commandButton value="Borrar" action="#{editarTransaccion.BorrarTransaccion(row)}" update="transaccionesTable"/>
+            </p:column>
+        </p:dataTable>
+
+    </h:form>
+</ui:composition>

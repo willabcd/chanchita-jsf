@@ -26,7 +26,7 @@ public class ControlVistas implements Serializable {
     }
 
     public void showTranssaccion() {
-        vistaActual = "prueba.xhtml";
+        vistaActual = "/WEB-INF/targer/Transaccion/listaTrans.xhtml";
     }
 
     public void showRegistrarTransaciones() {

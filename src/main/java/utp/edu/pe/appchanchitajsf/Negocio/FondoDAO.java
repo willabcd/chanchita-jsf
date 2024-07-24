@@ -42,7 +42,7 @@ public class FondoDAO {
         }
     }
     public static List<Fondo> ListarFondo() throws IOException, SQLException, NamingException{
-        String strSQL=String.format("CALL ListarFondoUser('%s');", Auth.ID_persona);
+        String strSQL=String.format("CALL ListarFondoUser(%s)",Auth.UsuarioActivo().getID());
         Connection con =ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE,AppConfig.getDatasource());
         ResultSet respuesta=con.createStatement().executeQuery(strSQL);
         LogFile.info("se inicio la consulta :"+strSQL);
@@ -68,7 +68,15 @@ public class FondoDAO {
     public static void ActualizarFondo(Fondo fondo) throws IOException, SQLException, NamingException {
         String callStatement =String.format("CALL ActualizarFondoUser(%s, '%s', %s)",fondo.getId(),fondo.getNombre(),fondo.getRecaudado()) ;
         LogFile.info("se inicio el metodo ActualizarFondo");
-        Connection con =ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE,AppConfig.getDatasource());
+        Connection con = ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE, AppConfig.getDatasource());
+        con.createStatement().executeQuery(callStatement);
+        con.close();
+
+    }
+    public static void BorrarFondo(Fondo fondo) throws IOException, SQLException, NamingException {
+        String callStatement =String.format("CALL BorrarFondo(%s)",fondo.getId()) ;
+        LogFile.info("se inicio el metodo BorrarFondo");
+        Connection con = ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE, AppConfig.getDatasource());
         con.createStatement().executeQuery(callStatement);
         con.close();
 

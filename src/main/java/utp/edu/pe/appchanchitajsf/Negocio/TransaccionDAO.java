@@ -118,7 +118,11 @@ public class TransaccionDAO {
         con.createStatement().executeQuery(strSQL);
         con.close();
     }
-    public static void BorrarTran(Transaccion transaccion){
-
+    public static void BorrarTran(Transaccion transaccion) throws IOException, SQLException, NamingException {
+        String strSQL=String.format("call BorrarTransaccion(%s)",transaccion.getId_transaccion());
+        LogFile.info("se inicio el metodo actualizarTran");
+        Connection con =ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE,AppConfig.getDatasource());
+        con.createStatement().executeQuery(strSQL);
+        con.close();
     }
 }

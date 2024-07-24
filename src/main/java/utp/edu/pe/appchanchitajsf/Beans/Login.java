@@ -49,4 +49,13 @@ public class Login implements Serializable {
     public Persona UsurEnSession() throws SQLException, NamingException, IOException {
         return Auth.UsuarioActivo();
     }
+    public String cerrarSesion() throws IOException {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+
+        externalContext.invalidateSession();
+
+
+        return "login?faces-redirect=true"; // Reemplaza con la URL de tu página de inicio o login
+    }
 }

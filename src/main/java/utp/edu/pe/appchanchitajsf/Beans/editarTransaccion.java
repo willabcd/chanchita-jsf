@@ -45,4 +45,9 @@ public class editarTransaccion {
         TransaccionDAO.actualizarTran(transaccion);
         return null;
     }
+    public String BorrarTransaccion(Transaccion transaccion) throws IOException, SQLException, NamingException {
+        LogFile.info("llamo al metodo ActualizarTransaccion");
+        TransaccionDAO.BorrarTran(transaccion);
+        return null;
+    }
 }

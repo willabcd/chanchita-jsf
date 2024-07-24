@@ -6,28 +6,29 @@
 
     <h:form class="form-container mt-5">
 
-        <h:dataTable value="#{editarListaFondo.listaFondos}" var="row">
-            <h:column >
+        <p:dataTable id="dataTable" value="#{editarListaFondo.listaFondos}" var="row">
+            <p:column >
                 <f:facet name="header">id</f:facet>
                 <h:outputLabel value="#{row.id}" />
-            </h:column>
-            <h:column >
+            </p:column>
+            <p:column >
                 <f:facet name="header">nombre</f:facet>
                 <h:inputText value="#{row.nombre}" />
-            </h:column>
-            <h:column >
+            </p:column>
+            <p:column >
                 <f:facet name="header">recaudado</f:facet>
                 <h:inputText value="#{row.recaudado}" />
-            </h:column>
-            <h:column >
-                <f:facet name="header">recaudado</f:facet>
+            </p:column>
+            <p:column >
+                <f:facet name="header">cuenta asociada</f:facet>
                 <h:outputLabel value="#{row.cuentaAsociada.numeroCuenta}" />
-            </h:column>
-            <h:column>
+            </p:column>
+            <p:column>
                 <f:facet name="header">action</f:facet>
-                <h:commandButton value="envio"  action="#{editarListaFondo.probarconexion(row)}"/>
-            </h:column>
-        </h:dataTable>
+                <p:commandButton value="Probar Conexion" action="#{editarListaFondo.probarconexion(row)}"/>
+                <p:commandButton value="Borrar" action="#{editarListaFondo.BorrarF(row)}" update="dataTable"/>
+            </p:column>
+        </p:dataTable>
 
     </h:form>
 

@@ -19,8 +19,8 @@ public class editarListaFondo {
     private List<Fondo> listaFondos ;
     public editarListaFondo() throws SQLException, NamingException, IOException {
         this.listaFondos=new ArrayList<>();
-        this.listaFondos=FondoDAO.ListarFondo();
         this.fondo=new Fondo();
+        this.listaFondos=FondoDAO.ListarFondo();
     }
 
     public List<Fondo> getListaFondos() {
@@ -41,6 +41,10 @@ public class editarListaFondo {
 
     public String probarconexion(Fondo fondoh) throws SQLException, NamingException, IOException {
         FondoDAO.ActualizarFondo(fondoh);
+        return null;
+    }
+    public String BorrarF(Fondo fondo) throws SQLException, NamingException, IOException {
+        FondoDAO.BorrarFondo(fondo);
         return null;
     }
 

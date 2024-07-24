@@ -92,6 +92,7 @@ public class Fondos implements Serializable {
             this.chanchita = new Fondo();
             chanchita.setEncargado(personafondo);
             chanchita.setCuentaAsociada(cuenta);
+            this.listaFondos = FondoDAO.ListarFondo();
 
         } catch (IOException | IllegalStateException e) {
             LogFile.error("Error en la implementación de ingresar fondos: " + e.getMessage());
