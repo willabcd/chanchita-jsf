@@ -43,6 +43,21 @@
           <artifactId>primefaces</artifactId>
           <version>13.0.0</version>
       </dependency>
+
+      <dependency>
+          <groupId>commons-fileupload</groupId>
+          <artifactId>commons-fileupload</artifactId>
+          <version>1.4</version>
+      </dependency>
+
+      <!-- Dependencia para Apache Commons IO -->
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+          <version>2.11.0</version>
+      </dependency>
+
+
       <dependency>
           <groupId>com.google.zxing</groupId>
           <artifactId>core</artifactId>

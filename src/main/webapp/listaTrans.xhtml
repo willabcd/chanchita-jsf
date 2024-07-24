@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form class="form-container mt-5">
+
+        <h:dataTable value="#{editarTransaccion.list}" var="row">
+            <h:column >
+                <f:facet name="header">id</f:facet>
+                <h:outputLabel value="#{row.id_transaccion}" />
+            </h:column>
+            <h:column >
+                <f:facet name="header">nombre user</f:facet>
+                <h:inputText value="#{row.usuarioAsociado.nombre}" />
+            </h:column>
+            <h:column >
+                <f:facet name="header">apellido user</f:facet>
+                <h:inputText value="#{row.usuarioAsociado.apellido}" />
+            </h:column>
+            <h:column >
+                <f:facet name="header">DNI user</f:facet>
+                <h:inputText value="#{row.usuarioAsociado.dni}" />
+            </h:column>
+            <h:column >
+                <f:facet name="header">recaudado</f:facet>
+                <h:outputLabel value="#{row.monto}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+                <h:commandButton value="envio"  action="#{editarTransaccion.ActualizarTransaccion(row)}"/>
+            </h:column>
+        </h:dataTable>
+
+    </h:form>
+</ui:composition>

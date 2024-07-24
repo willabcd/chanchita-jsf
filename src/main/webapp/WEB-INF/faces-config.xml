@@ -17,5 +17,11 @@
             <redirect/>
         </navigation-case>
     </navigation-rule>
+
+    <managed-bean>
+        <managed-bean-name>subirArchivo</managed-bean-name>
+        <managed-bean-class>utp.edu.pe.appchanchitajsf.Beans.subirArchivo</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     
 </faces-config>

@@ -6,6 +6,7 @@ import utp.edu.pe.appchanchitajsf.Clases.Fondo;
 import utp.edu.pe.appchanchitajsf.Clases.Persona;
 import utp.edu.pe.appchanchitajsf.Clases.Transaccion;
 import utp.edu.pe.appchanchitajsf.Service.AppConfig;
+import utp.edu.pe.appchanchitajsf.Service.Auth;
 import utp.edu.pe.appchanchitajsf.Util.ConecxionBD;
 import utp.edu.pe.appchanchitajsf.Util.LogFile;
 
@@ -82,5 +83,42 @@ public class TransaccionDAO {
             String msg = String.format("Exepcion Ocurrida En La Consulta : %s", e.getMessage());
             LogFile.error(msg);
         }
+    }
+    public static List<Transaccion> listaT() throws SQLException, NamingException, IOException {
+        String strSQL = String.format("CALL ListarTransacciones(%s)", Auth.ID_persona);
+        Connection con =ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE,AppConfig.getDatasource());
+        ResultSet respuesta=con.createStatement().executeQuery(strSQL);
+        LogFile.info("se inicio la consulta :"+strSQL);
+        List<Transaccion> listaT =new ArrayList<>();
+        while (respuesta.next()){
+            Transaccion tran  =new Transaccion();
+            tran.setId_transaccion(respuesta.getInt(1));
+            tran.setMonto(respuesta.getDouble(2));
+
+            Persona persona = new Persona();
+            persona.setNombre(respuesta.getString(3));
+            persona.setApellido(respuesta.getString(4));
+            persona.setDni(respuesta.getInt(5));
+
+            tran.setUsuarioAsociado(persona);
+
+            listaT.add(tran);
+        }
+        con.close();
+        return listaT;
+    }
+
+    public static void actualizarTran(Transaccion transaccion) throws IOException, SQLException, NamingException {
+        String strSQL=String.format("CALL ActualizarTransaccion(%s,'%s', '%s', %s, %s)"
+                ,transaccion.getId_transaccion(),transaccion.getUsuarioAsociado().getNombre(),
+                transaccion.getUsuarioAsociado().getApellido(),transaccion.getUsuarioAsociado().getDni(),
+                transaccion.getMonto());
+        LogFile.info("se inicio el metodo actualizarTran");
+        Connection con =ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE,AppConfig.getDatasource());
+        con.createStatement().executeQuery(strSQL);
+        con.close();
+    }
+    public static void BorrarTran(Transaccion transaccion){
+
     }
 }

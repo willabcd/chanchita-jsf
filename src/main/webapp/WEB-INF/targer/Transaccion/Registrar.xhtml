@@ -3,40 +3,197 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+        }
 
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
 
-    <h:form class="form-container mt-5">
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin: 20px;
+            flex: 1 1 300px;
+            max-width: 500px;
+            box-sizing: border-box;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-            <h:form >
-                <h:panelGrid columns="2" >
-                    <h:outputLabel for="id" value="nombre:" />
-                    <h:inputText id="id" value="#{transaccionBeam.transaccion.usuarioAsociado.nombre}" />
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-                    <h:outputLabel for="usuarioAsociado" value="apellido:" />
-                    <h:inputText id="usuarioAsociado" value="#{transaccionBeam.transaccion.usuarioAsociado.apellido}" />
+        .card h2 {
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-                    <h:outputLabel for="fondoAsociado" value="DNI" />
-                    <h:inputText id="fondoAsociado" value="#{transaccionBeam.transaccion.usuarioAsociado.dni}" />
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-                    <h:form>
-                        <h:selectOneMenu value="#{transaccionBeam.fondoaS}" id="selectMenu" styleClass="my-select-menu" disabled="#{transaccionBean.disableSelectMenu}" converter="#{fondoConverter}">
-                            <f:selectItem itemLabel="Select an option" itemValue="#{null}" />
-                            <f:selectItems value="#{transaccionBeam.listaF}" var="fondo" itemLabel="#{fondo.nombre}" itemValue="#{fondo.id}" />
-                        </h:selectOneMenu>
-                    </h:form>
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
 
+        .form-group input,
+        .form-group select,
+        .form-group .ui-fileupload {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
 
-                    <h:outputLabel for="evidencia" value="Evidencia:" />
-                    <p:fileUpload id="evidencia" value="#{transaccionBeam.file}" mode="simple" />
+        .form-group .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
 
-                    <h:outputLabel for="monto" value="Responsable:" />
-                    <h:inputText id="monto" value="#{transaccionBeam.transaccion.monto}" />
-                </h:panelGrid>
-                <h:commandButton value="Enviar" action="#{transaccionBeam.registrarTrab()}" />
-            </h:form>
+        .form-check {
+            margin-top: 20px;
+        }
 
+        .form-check input {
+            margin-right: 10px;
+        }
 
+        .form-check label {
+            color: #555;
+        }
 
-    </h:form>
+        .qr-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            border: 2px solid #007bff;
+            border-radius: 12px;
+            background-color: #ffffff;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
 
+        .qr-code img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .btn {
+            display: block;
+            width: 80%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <section class="s-fondo sec" id="s-fondo">
+        <h:form>
+            <div class="container">
+                <!-- Formulario de Transacción -->
+                <div class="card">
+                    <h2>Formulario de Transacción</h2>
+                    <div class="form-group">
+                        <p:outputLabel for="nombre-f" value="Nombre:"/>
+                        <p:inputText id="nombre-f" name="nombre-f" required="true" class="form-control" value="#{transaccionBeam.transaccion.usuarioAsociado.nombre}"
+                                     requiredMessage="Ingrese el nombre del usuario"
+                                     validatorMessage="El nombre debe tener mínimo 3 letras">
+                            <f:validateLength minimum="3"/>
+                        </p:inputText>
+                        <h:message for="nombre-f" class="error-message"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel for="apellido" value="Apellido:"/>
+                        <p:inputText id="apellido" name="apellido" required="true" class="form-control" value="#{transaccionBeam.transaccion.usuarioAsociado.apellido}"
+                                     requiredMessage="Ingrese el apellido del usuario"
+                                     validatorMessage="El apellido debe tener mínimo 3 letras">
+                            <f:validateLength minimum="3"/>
+                        </p:inputText>
+                        <h:message for="apellido" class="error-message"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel for="dni" value="DNI:"/>
+                        <p:inputText id="dni" name="dni" required="true" class="form-control" value="#{transaccionBeam.transaccion.usuarioAsociado.dni}"
+                                     requiredMessage="Ingrese el DNI del usuario"
+                                     validatorMessage="El DNI debe tener 8 dígitos"
+                                     converterMessage="El DNI debe ser numérico">
+                            <f:validateLength minimum="8" maximum="8"/>
+                            <f:convertNumber/>
+                        </p:inputText>
+                        <h:message for="dni" class="error-message"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel for="selectMenu" value="Fondo:"/>
+                        <p:selectOneMenu value="#{transaccionBeam.fondoaS}" id="selectMenu" required="true" class="form-control"
+                                         requiredMessage="Seleccione un fondo">
+                            <f:selectItem itemLabel="Seleccione una opción" itemValue="#{null}"/>
+                            <f:selectItems value="#{transaccionBeam.listaF}" var="fondo" itemLabel="#{fondo.nombre}" itemValue="#{fondo.id}"/>
+                        </p:selectOneMenu>
+                        <h:message for="selectMenu" class="error-message"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel for="evidencia" value="Evidencia:"/>
+                        <p:fileUpload id="evidencia" value="#{transaccionBeam.file}" mode="simple" required="true" class="form-control"
+                                      requiredMessage="Suba un archivo de evidencia"/>
+                        <h:message for="evidencia" class="error-message"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel for="monto" value="Monto:"/>
+                        <p:inputText id="monto" name="monto" required="true" class="form-control" value="#{transaccionBeam.transaccion.monto}"
+                                     requiredMessage="Ingrese el monto de la transacción"
+                                     converterMessage="El monto debe ser numérico">
+                            <f:convertNumber/>
+                        </p:inputText>
+                        <h:message for="monto" class="error-message"/>
+                    </div>
+
+                    <h:commandButton value="Registrar Transacción" type="submit" class="btn" action="#{transaccionBeam.registrarTrab()}"/>
+                </div>
+
+                <!-- Código QR -->
+                <div class="card">
+                    <h2>Código QR</h2>
+                    <div class="qr-code">
+                        <div class="qr-card">
+                            <h2>Código QR</h2>
+                            <h:panelGroup rendered="#{not empty transaccionBeam.qrCodeImage}" class="qr-container">
+                                <h:graphicImage value="data:image/png;base64,#{transaccionBeam.qrCodeImage}" />
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </section>
 </ui:composition>
