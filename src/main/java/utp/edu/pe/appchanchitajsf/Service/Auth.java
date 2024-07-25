@@ -8,6 +8,8 @@ import utp.edu.pe.appchanchitajsf.Util.LogFile;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,8 +18,8 @@ public class Auth {
     public static String ID_persona;
 
     public static Boolean isValidar(String correo, String contraseña) throws SQLException, NamingException, IOException {
-
-        String sql=String.format("CALL Validar('%s','%s')",correo,contraseña);
+        String contraseñaCifrada = md5(contraseña);
+        String sql=String.format("CALL Validar('%s','%s')",correo,contraseñaCifrada);
         Connection con = ConecxionBD.conexion(ConecxionBD.TipoDA.DATASOURCE,AppConfig.getDatasource());
         ResultSet respuesta=con.createStatement().executeQuery(sql);
         LogFile.info("inicio validacion");
@@ -41,7 +43,7 @@ public class Auth {
             UserActivo.setID(respuesta.getInt(1));
             UserActivo.setNombre(respuesta.getString(2));
             UserActivo.setApellido(respuesta.getString(3));
-            UserActivo.setDni(respuesta.getInt(4));
+            UserActivo.setDni(respuesta.getString(4));
             UserActivo.setNotificaciones(respuesta.getBoolean(5));
             UserActivo.setCorreo(respuesta.getString(6));
             UserActivo.setPassword(respuesta.getString(7));
@@ -52,5 +54,22 @@ public class Auth {
         con.close();
         return UserActivo;
 
+    }
+    public static String md5(String data) throws IOException {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(data.getBytes());
+            return byteArrayToHex(md.digest());
+        } catch (NoSuchAlgorithmException e) {
+            LogFile.error(e.getMessage());
+            return data;
+        }
+    }
+
+    public static String byteArrayToHex(byte[] a) {
+        StringBuilder sb = new StringBuilder(a.length * 2);
+        for (byte b : a)
+            sb.append(String.format("%02x", b));
+        return sb.toString();
     }
 }

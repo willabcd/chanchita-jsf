@@ -4,7 +4,7 @@ public class Persona {
     private int ID;
     private String nombre;
     private String apellido;
-    private int dni;
+    private String dni;
     private boolean notificaciones;
     private String correo;
     private String password;
@@ -14,7 +14,7 @@ public class Persona {
         this.rol=new Rol();
     }
 
-    public Persona(int ID, String nombre, String apellido, int dni, boolean notificaciones, String correo, String password, Rol rol) {
+    public Persona(int ID, String nombre, String apellido, String dni, boolean notificaciones, String correo, String password, Rol rol) {
         this.ID = ID;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -49,11 +49,11 @@ public class Persona {
         this.apellido = apellido;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 

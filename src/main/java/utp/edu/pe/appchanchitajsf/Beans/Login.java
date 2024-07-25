@@ -58,4 +58,7 @@ public class Login implements Serializable {
 
         return "login?faces-redirect=true"; // Reemplaza con la URL de tu página de inicio o login
     }
+    public String redirecionLogin(){
+        return "login?faces-redirect=true";
+    }
 }

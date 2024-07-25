@@ -9,6 +9,7 @@ import utp.edu.pe.appchanchitajsf.Service.AppConfig;
 import utp.edu.pe.appchanchitajsf.Service.Auth;
 import utp.edu.pe.appchanchitajsf.Util.ConecxionBD;
 import utp.edu.pe.appchanchitajsf.Util.LogFile;
+import utp.edu.pe.appchanchitajsf.Util.extra;
 
 import javax.naming.NamingException;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class TransaccionDAO {
             Persona persona = new Persona();
             persona.setNombre(respuesta.getString(4));
             persona.setApellido(respuesta.getString(5));
-            persona.setDni(respuesta.getInt(6));
+            persona.setDni(respuesta.getString(6));
             persona.setNotificaciones(respuesta.getBoolean(7));
             fondo.setEncargado(persona);
 
@@ -56,14 +57,16 @@ public class TransaccionDAO {
                 stmt.setInt(1,transaccion.getFondoAsociado().getId());
                 stmt.setString(2,transaccion.getUsuarioAsociado().getNombre());
                 stmt.setString(3,transaccion.getUsuarioAsociado().getApellido());
-                stmt.setInt(4,transaccion.getUsuarioAsociado().getDni());
+                int dniclinte= extra.convertStringToInt(transaccion.getUsuarioAsociado().getDni());
+                stmt.setInt(4,dniclinte);
                 stmt.setInt(5,transaccion.getUsuarioAsociado().isNotificaciones()  == true ? 1 : 0);
                 stmt.setString(6,transaccion.getUsuarioAsociado().getCorreo());
                 stmt.setString(7,transaccion.getUsuarioAsociado().getPassword());
                 stmt.setInt(8,transaccion.getUsuarioAsociado().getRol().getID());
                 stmt.setString(9,transaccion.getResponsable().getNombre());
                 stmt.setString(10,transaccion.getResponsable().getApellido());
-                stmt.setInt(11,transaccion.getResponsable().getDni());
+                int dniresponsable=extra.convertStringToInt(transaccion.getResponsable().getDni());
+                stmt.setInt(11,dniresponsable);
                 stmt.setInt(12,transaccion.getResponsable().isNotificaciones()  == true ? 1 : 0);
                 stmt.setString(13,transaccion.getResponsable().getCorreo());
                 stmt.setString(14,transaccion.getResponsable().getPassword());
@@ -98,7 +101,7 @@ public class TransaccionDAO {
             Persona persona = new Persona();
             persona.setNombre(respuesta.getString(3));
             persona.setApellido(respuesta.getString(4));
-            persona.setDni(respuesta.getInt(5));
+            persona.setDni(respuesta.getString(5));
 
             tran.setUsuarioAsociado(persona);
 

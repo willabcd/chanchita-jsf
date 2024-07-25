@@ -9,64 +9,113 @@
 <head>
  <meta charset="UTF-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>AppChanchita-Reguitrar</title>
+ <title>AppChanchita-Registrar</title>
  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
-
+ <style>
+  .error-message {
+   color: red; /* Color del mensaje de error */
+   font-size: 0.875em; /* Tamaño del texto del mensaje de error */
+   margin-top: 0.25rem; /* Espacio encima del mensaje de error */
+   display: block; /* Asegura que el mensaje de error esté en una nueva línea */
+  }
+  .form-outline {
+   margin-bottom: 1rem; /* Espacio inferior entre los campos del formulario */
+  }
+  .form-label {
+   display: block; /* Asegura que la etiqueta esté en una nueva línea */
+   margin-bottom: 0.5rem; /* Espacio inferior entre la etiqueta y el campo */
+  }
+  .form-control {
+   display: block; /* Asegura que el campo de entrada esté en una nueva línea */
+   width: 100%; /* Hace que el campo de entrada ocupe todo el ancho del contenedor */
+  }
+  .btn {
+   margin-top: 1rem; /* Espacio superior para el botón */
+  }
+ </style>
 </head>
 <f:view>
  <body>
  <div class="container">
-
   <section class="vh-100">
    <div class="container-fluid">
     <div class="row">
      <div class="col-sm-6 text-black">
-
       <div class="px-5 ms-xl-4" style="margin-top: 90px;">
        <span class="h1 fw-bold mb-5">Register User</span>
       </div>
-
       <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-5 mt-xl-n5">
-
        <h:form style="width: 23rem">
-
         <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;"></h3>
-
         <div class="form-outline mb-4">
-         <h:inputText id="txtLoginNameRU" styleClass="form-control form-control-lg"  />
-         <label class="form-label" for="txtLoginNameRU">Login Name</label>
+         <p:inputText id="txtLoginNameRU" styleClass="form-control form-control-lg" value="#{newUserBeam.user.nombre}" required="true"
+                      requiredMessage="Ingresar el Nombre del Usuario"
+                      validatorMessage="El Nombre debe tener minimo 3 letras">
+          <f:validateRequired/>
+          <f:validateLength minimum="3" maximum="50"/>
+         </p:inputText>
+         <label class="form-label" for="txtLoginNameRU">Nombre</label>
+
         </div>
-
+        <h:message for="txtLoginNameRU" styleClass="error-message"/>
         <div class="form-outline mb-4">
-         <h:inputText id="txtFullnameRU" styleClass="form-control form-control-lg"  />
-         <label class="form-label" for="txtFullnameRU">Full Name</label>
+         <p:inputText id="txtFullnameRU" styleClass="form-control form-control-lg"  value="#{newUserBeam.user.apellido}"
+                      requiredMessage="Ingresar el apellido del encargado del fondo"
+                      validatorMessage="El apellido debe tener mínimo 4 letras">
+          <f:validateRequired/>
+          <f:validateLength minimum="4"/>
+         </p:inputText>
+         <label class="form-label" for="txtFullnameRU">Apellido</label>
+
         </div>
-
+        <h:message for="txtFullnameRU" styleClass="error-message"/>
         <div class="form-outline mb-4">
-         <h:inputText id="txtEmailRU" styleClass="form-control form-control-lg"  />
+         <p:inputText id="txtFulldniRU" styleClass="form-control form-control-lg"  value="#{newUserBeam.user.dni}" required="true"
+                      requiredMessage="Ingresar el DNI del encargado"
+                      validatorMessage="El DNI debe tener 8 dígitos"
+                      converterMessage="El DNI debe ser numérico">
+          <f:validateRequired/>
+          <f:validateLength minimum="8" maximum="8"/>
+          <f:convertNumber/>
+         </p:inputText>
+         <label class="form-label" for="txtFulldniRU">DNI</label>
+
+        </div>
+        <h:message for="txtFulldniRU" styleClass="error-message"/>
+        <div class="form-outline mb-4">
+         <p:inputText id="txtEmailRU" styleClass="form-control form-control-lg" value="#{newUserBeam.user.correo}" required="true"
+                      requiredMessage="Ingresar el correo del encargado, de formato correo@hotmail.com ">
+          <f:validateRequired/>
+          <f:validator validatorId="utp.edu.pe.appchanchitajsf.Beans.Validaciones"/>
+          <f:validateRegex pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"/>
+         </p:inputText>
          <label class="form-label" for="txtEmailRU">Email address</label>
-        </div>
 
+        </div>
+        <h:message for="txtEmailRU" styleClass="error-message"/>
         <div class="form-outline mb-4">
-         <h:inputSecret id="txtPasswordRU" styleClass="form-control form-control-lg" />
+         <p:inputText id="txtPasswordRU" styleClass="form-control form-control-lg" value="#{newUserBeam.user.password}" required="true"
+                      requiredMessage="Ingresar una contraseña para el encargado"
+                      validatorMessage="La contraseña debe tener como mínimo 6 dígitos">
+          <f:validateRequired/>
+          <f:validateLength minimum="6"/>
+         </p:inputText>
          <label class="form-label" for="txtPasswordRU">Password</label>
-        </div>
 
+        </div>
+        <h:message for="txtPasswordRU" styleClass="error-message"/>
+        <div class="form-outline mb-4">
+         <h:selectBooleanCheckbox id="chkTerms" value="#{newUserBeam.user.notificaciones}" styleClass="form-check-input" />
+         <label class="form-check-label" for="chkTerms">Desea recibir notificaciones</label>
+        </div>
         <div class="pt-1 mb-4">
-
-         <h:commandButton styleClass="btn btn-info btn-lg btn-block" value="Register"  />
+         <p:commandButton styleClass="btn btn-info btn-lg btn-block" value="Register" action="#{newUserBeam.registrar()}"/>
         </div>
-
         <p>Actually, I have a user...
-         <h:commandLink styleClass="link-info" value="Go Back to Login Page" action="login" />
+         <p:commandButton styleClass="link-info" value="Go Back to Login Page" action="#{login.redirecionLogin()}" immediate="true"/>
         </p>
-
-
-
        </h:form>
-
       </div>
-
      </div>
      <div class="col-sm-6 px-0 d-none d-sm-block">
       <img src="IMG/login-registrar.jpeg"

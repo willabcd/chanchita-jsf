@@ -7,6 +7,7 @@ import utp.edu.pe.appchanchitajsf.Service.AppConfig;
 import utp.edu.pe.appchanchitajsf.Service.Auth;
 import utp.edu.pe.appchanchitajsf.Util.ConecxionBD;
 import utp.edu.pe.appchanchitajsf.Util.LogFile;
+import utp.edu.pe.appchanchitajsf.Util.extra;
 
 import javax.naming.NamingException;
 import java.io.IOException;
@@ -24,7 +25,8 @@ public class FondoDAO {
                 stmt.setString(2, fondo.getChanchita().getNombre());
                 stmt.setString(3, fondo.getChanchita().getEncargado().getNombre());
                 stmt.setString(4, fondo.getChanchita().getEncargado().getApellido());
-                stmt.setInt(5, fondo.getChanchita().getEncargado().getDni());
+                int dni= extra.convertStringToInt(fondo.getChanchita().getEncargado().getDni());
+                stmt.setInt(5,dni);
                 stmt.setInt(6, fondo.getChanchita().getEncargado().isNotificaciones() == true ? 1 : 0);
                 stmt.setString(7, fondo.getChanchita().getEncargado().getCorreo());
                 stmt.setString(8, fondo.getChanchita().getEncargado().getPassword());
