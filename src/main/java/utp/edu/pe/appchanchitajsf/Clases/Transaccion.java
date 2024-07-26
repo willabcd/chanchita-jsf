@@ -10,7 +10,6 @@ public class Transaccion {
     private double monto;
     private String fecha;
     private String hora;
-    private byte[] evidencia;
     private Persona responsable;
 
     public Transaccion() {
@@ -19,14 +18,13 @@ public class Transaccion {
 
     }
 
-    public Transaccion(int id_transaccion, Persona usuarioAsociado, Fondo fondoAsociado, double monto, String fecha, String hora, byte[] evidencia, Persona responsable) {
+    public Transaccion(int id_transaccion, Persona usuarioAsociado, Fondo fondoAsociado, double monto, String fecha, String hora, Persona responsable) {
         this.id_transaccion = id_transaccion;
         this.usuarioAsociado = usuarioAsociado;
         this.fondoAsociado = fondoAsociado;
         this.monto = monto;
         this.fecha = fecha;
         this.hora = hora;
-        this.evidencia = evidencia;
         this.responsable = responsable;
     }
 
@@ -82,13 +80,6 @@ public class Transaccion {
         this.hora = horaActual.format(horaFormatter);
     }
 
-    public byte[] getEvidencia() {
-        return evidencia;
-    }
-
-    public void setEvidencia(byte[] evidencia) {
-        this.evidencia = evidencia;
-    }
 
     public Persona getResponsable() {
         return responsable;

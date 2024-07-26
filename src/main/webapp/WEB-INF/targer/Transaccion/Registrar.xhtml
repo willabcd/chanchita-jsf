@@ -162,12 +162,7 @@
                         </p:selectOneMenu>
                         <h:message for="selectMenu" class="error-message"/>
                     </div>
-                    <div class="form-group">
-                        <p:outputLabel for="evidencia" value="Evidencia:"/>
-                        <p:fileUpload id="evidencia" value="#{transaccionBeam.file}" mode="simple" required="true" class="form-control"
-                                      requiredMessage="Suba un archivo de evidencia"/>
-                        <h:message for="evidencia" class="error-message"/>
-                    </div>
+
                     <div class="form-group">
                         <p:outputLabel for="monto" value="Monto:"/>
                         <p:inputText id="monto" name="monto" required="true" class="form-control" value="#{transaccionBeam.transaccion.monto}"

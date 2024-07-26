@@ -4,32 +4,167 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:form class="form-container mt-5">
+    <style>
+        .form-container {
+            max-width: 90%; /* Ajusta el ancho máximo al 90% del contenedor */
+            margin: 0 auto; /* Centra el formulario horizontalmente */
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es muy ancha */
+        }
 
-        <p:dataTable id="dataTable" value="#{editarListaFondo.listaFondos}" var="row">
-            <p:column >
-                <f:facet name="header">id</f:facet>
+        .ui-datatable {
+            width: 100%; /* Hace que la tabla ocupe el 100% del contenedor */
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            overflow-x: auto; /* Permite el desplazamiento horizontal en pantallas pequeñas */
+        }
+
+        .ui-datatable .ui-datatable-header {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .ui-datatable .ui-datatable-data {
+            background-color: #fff;
+            text-align: center;
+            vertical-align: middle; /* Centra verticalmente el contenido */
+        }
+
+        .ui-datatable .ui-datatable-data:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .ui-datatable .ui-datatable-column {
+            padding: 0.75rem;
+        }
+
+        .ui-datatable .ui-datatable-row {
+            transition: background-color 0.2s ease;
+        }
+
+        .ui-datatable .ui-datatable-row:hover {
+            background-color: #e9ecef;
+        }
+
+        .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-data {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .ui-datatable .ui-datatable-footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .message-container {
+            margin-top: 1rem;
+        }
+
+        .btn-update {
+            background-color: #28a745; /* Verde para el botón de actualización */
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-update:hover {
+            background-color: #218838; /* Verde oscuro para el hover */
+        }
+
+        .btn-delete {
+            background-color: #dc3545; /* Rojo para el botón de borrado */
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333; /* Rojo oscuro para el hover */
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        /* Estilo para los inputs */
+        .ui-inputtext {
+            width: 100%; /* Hace que los inputs ocupen el 100% de la columna */
+            padding: 0.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        .ui-inputtext:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+    </style>
+
+    <h:form class="form-container mt-5">
+        <p:dataTable id="dataTable" value="#{editarListaFondo.listaFondos}" var="row" styleClass="table table-bordered">
+            <p:column>
+                <f:facet name="header">ID</f:facet>
                 <h:outputLabel value="#{row.id}" />
             </p:column>
-            <p:column >
-                <f:facet name="header">nombre</f:facet>
-                <h:inputText value="#{row.nombre}" />
+            <p:column>
+                <f:facet name="header">Nombre</f:facet>
+                <p:inputText id="nombre_#{row.id}" value="#{row.nombre}" required="true"
+                             requiredMessage="Ingrese el nombre del Fondo"
+                             validatorMessage="Nombre del Fondo debe tener como mínimo 3 letras">
+                    <f:validateRequired/>
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
+                <h:message for="nombre_#{row.id}" styleClass="error-message" />
             </p:column>
-            <p:column >
-                <f:facet name="header">recaudado</f:facet>
-                <h:inputText value="#{row.recaudado}" />
+            <p:column>
+                <f:facet name="header">Recaudado</f:facet>
+                <p:inputText id="recaudado_#{row.id}" value="#{row.recaudado}" required="true"
+                             requiredMessage="Ingrese monto"
+                             converterMessage="El monto debe ser numérico">
+                    <f:validateRequired/>
+                    <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                </p:inputText>
+                <h:message for="recaudado_#{row.id}" styleClass="error-message" />
             </p:column>
-            <p:column >
-                <f:facet name="header">cuenta asociada</f:facet>
+            <p:column>
+                <f:facet name="header">Cuenta Asociada</f:facet>
                 <h:outputLabel value="#{row.cuentaAsociada.numeroCuenta}" />
             </p:column>
             <p:column>
-                <f:facet name="header">action</f:facet>
-                <p:commandButton value="Probar Conexion" action="#{editarListaFondo.probarconexion(row)}"/>
-                <p:commandButton value="Borrar" action="#{editarListaFondo.BorrarF(row)}" update="dataTable"/>
+                <f:facet name="header">Acción</f:facet>
+                <div class="button-group">
+                    <p:commandButton value="Probar Conexión" action="#{editarListaFondo.probarconexion(row)}"
+                                     styleClass="btn-update" update="dataTable"/>
+                    <p:commandButton value="Borrar" action="#{editarListaFondo.BorrarF(row)}"
+                                     styleClass="btn-delete" update="dataTable"/>
+                </div>
             </p:column>
         </p:dataTable>
 
+        <div class="message-container">
+            <h:messages styleClass="error-message" />
+        </div>
     </h:form>
 
 </ui:composition>

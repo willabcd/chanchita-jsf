@@ -11,16 +11,35 @@
                 <h:outputLabel value="#{row.id_transaccion}" />
             </p:column>
             <p:column headerText="nombre usuario">
-                <h:inputText value="#{row.usuarioAsociado.nombre}" />
+                <p:inputText value="#{row.usuarioAsociado.nombre}"  required="true"
+                             requiredMessage="Ingrese el nombre del usuario"
+                             validatorMessage="El nombre debe tener mínimo 3 letras">
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
             </p:column>
             <p:column headerText="apellido usuario">
-                <h:inputText value="#{row.usuarioAsociado.apellido}" />
+                <p:inputText value="#{row.usuarioAsociado.apellido}"  required="true"
+                             requiredMessage="Ingrese el apellido del usuario"
+                             validatorMessage="El apellido debe tener mínimo 3 letras">
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
             </p:column>
             <p:column headerText="DNI usuario">
-                <h:inputText value="#{row.usuarioAsociado.dni}" />
+                <p:inputText value="#{row.usuarioAsociado.dni}" required="true"
+                             requiredMessage="Ingrese el DNI del usuario"
+                             validatorMessage="El DNI debe tener 8 dígitos"
+                             converterMessage="El DNI debe ser numérico">
+                <f:validateLength minimum="8" maximum="8"/>
+                <f:convertNumber/>
+                </p:inputText>
             </p:column>
             <p:column headerText="recaudado">
-                <h:outputLabel value="#{row.monto}" />
+                <p:inputText value="#{row.monto}" required="true"
+                             requiredMessage="Ingrese el monto de la transacción"
+                             converterMessage="El monto debe ser numérico">
+                    <f:validateRequired/>
+                    <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                </p:inputText>
             </p:column>
             <p:column headerText="acción">
                 <p:commandButton value="Actualizar" action="#{editarTransaccion.ActualizarTransaccion(row)}" update="transaccionesTable"/>

@@ -10,6 +10,7 @@ import org.primefaces.model.file.UploadedFile;
 import utp.edu.pe.appchanchitajsf.Clases.Fondo;
 import utp.edu.pe.appchanchitajsf.Clases.Persona;
 import utp.edu.pe.appchanchitajsf.Clases.Transaccion;
+import utp.edu.pe.appchanchitajsf.Negocio.FondoDAO;
 import utp.edu.pe.appchanchitajsf.Negocio.TransaccionDAO;
 import utp.edu.pe.appchanchitajsf.Service.AppConfig;
 import utp.edu.pe.appchanchitajsf.Service.Auth;
@@ -40,16 +41,19 @@ public class TransaccionBeam  implements Serializable {
 private Transaccion transaccion;
 private List<Fondo> listaF;
 private int fondoaS;
-private UploadedFile file;
+private  Persona responsable;
+
 private String qrCodeImage;
 
     public TransaccionBeam() throws SQLException, NamingException, IOException {
         this.transaccion=new Transaccion();
-        this.transaccion.setResponsable(Auth.UsuarioActivo());
+        this.responsable = new Persona(Auth.UsuarioActivo().getID(),Auth.UsuarioActivo().getNombre(),Auth.UsuarioActivo().getApellido(),Auth.UsuarioActivo().getDni(),
+                Auth.UsuarioActivo().isNotificaciones(),Auth.UsuarioActivo().getCorreo(),Auth.UsuarioActivo().getPassword(),Auth.UsuarioActivo().getRol());
+        this.transaccion.setResponsable(this.responsable);
         this.transaccion.setHora();
         this.transaccion.setFecha();
         this.listaF=new ArrayList<>();
-        this.listaF=TransaccionDAO.ListarF();
+        this.listaF= FondoDAO.ListarFondo();
     }
 
     public Transaccion getTransaccion() {
@@ -76,12 +80,12 @@ private String qrCodeImage;
         this.fondoaS = fondoaS;
     }
 
-    public UploadedFile getFile() {
-        return file;
+    public Persona getResponsable() {
+        return responsable;
     }
 
-    public void setFile(UploadedFile file) {
-        this.file = file;
+    public void setResponsable(Persona responsable) {
+        this.responsable = responsable;
     }
 
     public String getQrCodeImage() {
@@ -93,16 +97,13 @@ private String qrCodeImage;
     }
 
     public String registrarTrab() throws SQLException, NamingException, IOException, WriterException {
+        LogFile.info("si se llama al metodo registrar");
         String ruta;
         if(this.fondoaS!=0){
             this.transaccion.setFondoAsociado(obtenerFondoPorId(fondoaS));
         }
-        if (this.file!=null){
-            LogFile.info("si se guardo el input file");
-           ruta= ControlFiles.saveFile(file);
-           this.transaccion.setEvidencia(ruta.getBytes());
-        }
-        TransaccionDAO.RegistarTransaccionBS(this.transaccion);
+
+        TransaccionDAO.RegistrarTransaccionBS(this.transaccion);
         this.qrCodeImage=generateQRCode();
         // Generar QR Code
 

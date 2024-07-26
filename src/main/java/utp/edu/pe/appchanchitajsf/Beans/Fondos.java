@@ -5,6 +5,7 @@ import utp.edu.pe.appchanchitajsf.Clases.Fondo;
 import utp.edu.pe.appchanchitajsf.Clases.Persona;
 import utp.edu.pe.appchanchitajsf.Clases.Rol;
 import utp.edu.pe.appchanchitajsf.Negocio.FondoDAO;
+import utp.edu.pe.appchanchitajsf.Service.Auth;
 import utp.edu.pe.appchanchitajsf.Util.LogFile;
 
 import javax.faces.bean.ManagedBean;
@@ -21,16 +22,18 @@ import java.util.List;
 public class Fondos implements Serializable {
     private Fondo chanchita;
     private Persona personafondo;
-    private Rol rol;
+
     private Cuenta cuenta;
     private List<Fondo> listaFondos;
 
     public Fondos() throws SQLException, NamingException, IOException {
-        this.rol = new Rol(1, "Administrador");
+
         this.listaFondos = new ArrayList<>();
+
         this.cuenta = new Cuenta();
-        this.personafondo = new Persona();
-        personafondo.setRol(rol);
+
+        this.personafondo = new Persona(Auth.UsuarioActivo().getID(),Auth.UsuarioActivo().getNombre(),Auth.UsuarioActivo().getApellido(),Auth.UsuarioActivo().getDni(),
+                Auth.UsuarioActivo().isNotificaciones(),Auth.UsuarioActivo().getCorreo(),Auth.UsuarioActivo().getPassword(),Auth.UsuarioActivo().getRol());
         this.chanchita = new Fondo();
         chanchita.setEncargado(personafondo);
         chanchita.setCuentaAsociada(cuenta);
@@ -53,13 +56,7 @@ public class Fondos implements Serializable {
         this.personafondo = personafondo;
     }
 
-    public Rol getRol() {
-        return rol;
-    }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
 
     public Cuenta getCuenta() {
         return cuenta;
@@ -85,10 +82,10 @@ public class Fondos implements Serializable {
             FondoDAO.NewFondo(this);
 
             // Resetear los campos después de registrar
-            this.rol = new Rol(1, "Administrador");
             this.cuenta = new Cuenta();
-            this.personafondo = new Persona();
-            personafondo.setRol(rol);
+
+            this.personafondo = new Persona(Auth.UsuarioActivo().getID(),Auth.UsuarioActivo().getNombre(),Auth.UsuarioActivo().getApellido(),Auth.UsuarioActivo().getDni(),
+                    Auth.UsuarioActivo().isNotificaciones(),Auth.UsuarioActivo().getCorreo(),Auth.UsuarioActivo().getPassword(),Auth.UsuarioActivo().getRol());
             this.chanchita = new Fondo();
             chanchita.setEncargado(personafondo);
             chanchita.setCuentaAsociada(cuenta);
